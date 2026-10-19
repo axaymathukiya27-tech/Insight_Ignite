@@ -1,9 +1,10 @@
 import { Router, Request, Response } from "express";
+import { sendSuccess } from "../utils/response";
 
 const router = Router();
 
 router.get("/health", (req: Request, res: Response) => {
-  res.status(200).json({
+  return sendSuccess(res, {
     status: "ok",
     service: "insight-ignite-api",
     timestamp: new Date().toISOString(),
