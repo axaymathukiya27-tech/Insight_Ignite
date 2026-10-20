@@ -182,7 +182,7 @@ While the site builds cleanly and responds across all routes, **architectural, v
 - **File / Route:** `tests/e2e/navigation.spec.ts`, `package.json`
 - **Severity:** Low
 - **Description:** `tests/e2e/navigation.spec.ts` exists, but root `package.json` has `"test": "npm run test --workspaces --if-present"`. None of the workspaces define a test runner script (Playwright or Vitest), meaning `npm test` does not execute navigation tests.
-- **Evidence:** Running `npm test` outputs nothing.
+- **Evidence:** Running `npm test` outputs "No tests specified for backend yet" and exits without running any frontend or E2E tests.
 - **Recommended Correction:** Configure Playwright or Vitest in root or frontend package scripts.
 - **Verification Method:** Run `npm test` and observe execution.
 
@@ -195,6 +195,69 @@ While the site builds cleanly and responds across all routes, **architectural, v
 - **Evidence:** Empty directory listing in file system.
 - **Recommended Correction:** Add `.gitkeep` or placeholder barrel exports to ensure clean repository tracking across Git environments.
 - **Verification Method:** Confirm Git tracks all required monorepo directories.
+
+---
+
+#### `AUD-011`: Canonical Legal Routes Return HTTP 404 Due to Subfolder Nesting
+- **File / Route:** `/privacy`, `/terms`, `/refund-policy` (Frontend App Router)
+- **Severity:** High
+- **Description:** The specification requires canonical root paths `/privacy`, `/terms`, and `/refund-policy`. Currently, these pages are nested under `/legal/privacy`, `/legal/terms`, and `/legal/refunds`. Requesting the canonical URLs returns HTTP 404.
+- **Evidence:** `curl.exe http://localhost:3000/privacy` &rarr; 404; `curl.exe http://localhost:3000/terms` &rarr; 404; `curl.exe http://localhost:3000/refund-policy` &rarr; 404.
+- **Recommended Correction:** Move or re-export legal pages directly at `/privacy`, `/terms`, and `/refund-policy`, or implement Next.js rewrites/redirects to maintain canonical route compliance.
+- **Verification Method:** Curl canonical paths and confirm 200 OK.
+
+---
+
+#### `AUD-012`: Missing Authentication Route `/reset-password`
+- **File / Route:** `frontend/src/app/(auth)/reset-password`
+- **Severity:** High
+- **Description:** While `/forgot-password` exists, the subsequent `/reset-password` route (which accepts token parameters for password reset) is completely absent from the route tree, returning HTTP 404.
+- **Evidence:** `curl.exe http://localhost:3000/reset-password` &rarr; 404.
+- **Recommended Correction:** Implement `/reset-password/page.tsx` accepting token query params with field-level validation and password matching.
+- **Verification Method:** Navigate to `/reset-password?token=test` and confirm rendering.
+
+---
+
+#### `AUD-013`: Missing Learner Route `/profile`
+- **File / Route:** `frontend/src/app/(learner)/profile`
+- **Severity:** Medium
+- **Description:** Section 7 requires `/profile` for displaying and managing authenticated learner details and preferences. No profile route or component exists.
+- **Evidence:** `curl.exe http://localhost:3000/profile` &rarr; 404.
+- **Recommended Correction:** Implement `/profile` under learner route group with user account attributes and notification settings.
+- **Verification Method:** Curl `/profile` and verify 200 response with authenticated profile shell.
+
+---
+
+#### `AUD-014`: Incomplete Admin Subroutes Returning HTTP 404
+- **File / Route:** `/admin/lessons`, `/admin/enrollments`, `/admin/contact-inquiries`
+- **Severity:** High
+- **Description:** Section 8 requires complete administrative console views for courses, lessons, users, enrollments, orders, and contact inquiries. Currently, `/admin/lessons`, `/admin/enrollments`, and `/admin/contact-inquiries` do not exist.
+- **Evidence:**
+  - `curl.exe http://localhost:3000/admin/lessons` &rarr; 404
+  - `curl.exe http://localhost:3000/admin/enrollments` &rarr; 404
+  - `curl.exe http://localhost:3000/admin/contact-inquiries` &rarr; 404
+- **Recommended Correction:** Build administrative views with server-side role gating connected to backend endpoints.
+- **Verification Method:** Curl each admin route and confirm 200 response (or 401/403 redirect when unauthenticated).
+
+---
+
+#### `AUD-015`: Scope Creep — Premature Routes for Assessments and School Management
+- **File / Route:** `frontend/src/app/(assessment)`, `frontend/src/app/(school)`
+- **Severity:** Medium
+- **Description:** Modules for `/assessments` and `/school` were scaffolded in previous commits. The product specification explicitly states: *"Future assessment and school-management modules are separate phases and must not be silently added to the initial release."*
+- **Evidence:** Routes `/assessments`, `/school`, `/school/reports`, `/school/students`, `/school/teachers` compiled into static build (32 routes total).
+- **Recommended Correction:** Isolate, disable from navigation, or gate these modules so they are not exposed in the initial launch bundle.
+- **Verification Method:** Verify navbar, footer, and sitemap do not link to unlaunched modules.
+
+---
+
+#### `AUD-016`: Absence of Route Protection and Session Verification
+- **File / Route:** `frontend/src/app/(admin)/*`, `frontend/src/app/(learner)/*`
+- **Severity:** Critical
+- **Description:** All learner and admin routes are completely public and render client/server shells without verifying authentication, tokens, or role authorization. Anyone knowing the URL can view the admin console.
+- **Evidence:** Direct HTTP GET request to `/admin` returns HTTP 200 OK without requiring cookies, session headers, or login.
+- **Recommended Correction:** Implement Next.js middleware and server-side session checks verifying valid session cookies and role claims (`PLATFORM_ADMIN`).
+- **Verification Method:** Request `/admin` as unauthenticated visitor; verify automatic redirect to `/login?redirect=/admin`.
 
 ---
 

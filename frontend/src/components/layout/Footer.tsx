@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 
 export default function Footer() {
   return (
-    <footer id="contact" className="bg-[#2D231C] text-[#E8DFD5] pt-16 pb-12 border-t border-[#423429]">
+    <footer className="bg-[#2D231C] text-[#E8DFD5] pt-16 pb-12 border-t border-[#423429]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-[#4A3C32]">
           {/* Brand & Overview Column */}
@@ -120,9 +120,9 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#3D3026]">
             <p>© 2026 {siteConfig.name} — {siteConfig.author}. All rights reserved.</p>
             <div className="flex items-center gap-6 text-[11px]">
-              <Link href="/legal/privacy" className="hover:text-white transition-colors">Privacy</Link>
-              <Link href="/legal/terms" className="hover:text-white transition-colors">Terms</Link>
-              <Link href="/legal/refunds" className="hover:text-white transition-colors">Refunds</Link>
+              <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+              <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+              <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
             </div>
           </div>
         </div>

@@ -25,30 +25,48 @@ export default function AdminLayout({
               </span>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-2 text-xs font-medium text-white/80">
+            <nav className="hidden lg:flex items-center gap-1.5 text-xs font-medium text-white/80">
               <Link
                 href="/admin"
-                className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
               >
                 Overview
               </Link>
               <Link
                 href="/admin/courses"
-                className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
               >
                 Courses
               </Link>
               <Link
-                href="/admin/users"
-                className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+                href="/admin/lessons"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
               >
-                Users & Learners
+                Lessons
+              </Link>
+              <Link
+                href="/admin/users"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+              >
+                Users
+              </Link>
+              <Link
+                href="/admin/enrollments"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+              >
+                Enrollments
               </Link>
               <Link
                 href="/admin/orders"
-                className="px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
               >
-                Orders & Invoices
+                Orders
+              </Link>
+              <Link
+                href="/admin/contact-inquiries"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+              >
+                Inquiries
               </Link>
             </nav>
           </div>

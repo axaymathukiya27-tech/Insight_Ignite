@@ -35,9 +35,9 @@ export const siteConfig = {
     { label: "Contact", href: "/contact" },
   ] as NavItem[],
   policyLinks: [
-    { label: "Privacy Notice & Child Data Protection", href: "/legal/privacy" },
-    { label: "Terms of Service & Platform Governance", href: "/legal/terms" },
-    { label: "Refund & Cancellation Policy", href: "/legal/refunds" },
+    { label: "Privacy Notice & Child Data Protection", href: "/privacy" },
+    { label: "Terms of Service & Platform Governance", href: "/terms" },
+    { label: "Refund & Cancellation Policy", href: "/refund-policy" },
   ] as NavItem[],
   links: {
     login: "/login",

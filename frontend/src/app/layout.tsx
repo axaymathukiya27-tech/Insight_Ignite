@@ -20,16 +20,21 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Insight Ignite — Dr. Nivedita Ganguli | Conscious Parenting Platform",
+  title: {
+    default: "Insight Ignite — Educational & Developmental Mentorship | Dr. Nivedita Ganguli",
+    template: "%s | Insight Ignite",
+  },
   description:
-    "Official online education platform for Dr. Nivedita Ganguli. Explore 'The 6 Powers of Conscious Parenting' masterclass, cultivating presence, emotional attunement, compassionate boundaries, and calm co-regulation.",
+    "Official educational and developmental mentorship platform led by Dr. Nivedita Ganguli. Evidence-informed frameworks across parenting and families, adolescent mentorship, educator pedagogy, and organizational resilience.",
   keywords: [
-    "Conscious Parenting",
-    "Dr. Nivedita Ganguli",
     "Insight Ignite",
-    "Co-Regulation",
-    "Parent Child Attunement",
-    "Parenting Courses",
+    "Dr. Nivedita Ganguli",
+    "Educational Mentorship",
+    "Conscious Parenting",
+    "Adolescent Development",
+    "Educator Training",
+    "Emotional Resilience",
+    "The 6 Powers of Conscious Parenting",
   ],
   authors: [{ name: "Dr. Nivedita Ganguli" }],
 };

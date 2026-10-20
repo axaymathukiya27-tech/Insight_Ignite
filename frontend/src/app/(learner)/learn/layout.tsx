@@ -39,6 +39,12 @@ export default function LearnerLayout({
                 My Courses
               </Link>
               <Link
+                href="/profile"
+                className="px-3 py-1.5 rounded-lg text-[#5C4D42] hover:text-[#2D241E] hover:bg-[#FAF5EE] transition-colors"
+              >
+                Profile & Settings
+              </Link>
+              <Link
                 href="/resources"
                 className="px-3 py-1.5 rounded-lg text-[#5C4D42] hover:text-[#2D241E] hover:bg-[#FAF5EE] transition-colors"
               >
