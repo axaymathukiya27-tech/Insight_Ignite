@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Button from "@/components/ui/Button";
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState("parenting");
-  const [submitted, setSubmitted] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,7 +19,9 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setNotice(
+      "Phase 1 Frontend Preview: Contact inquiry backend service is scheduled for Phase 2 API connection. Your form inputs have been validated locally. To send your inquiry immediately to Dr. Nivedita Ganguli's secretariat, please email info@insightignite.org."
+    );
   };
 
   return (
@@ -92,30 +95,27 @@ export default function ContactPage() {
 
             {/* Right Column: Contact Form */}
             <div className="lg:col-span-7">
-              <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#E3D8CC] shadow-sm">
-                {submitted ? (
-                  <div className="text-center py-12 space-y-5">
-                    <div className="w-16 h-16 mx-auto rounded-full bg-[#EAE2D8] flex items-center justify-center text-[#8C5E42] text-2xl font-bold">
-                      ✓
+              <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#E3D8CC] shadow-sm space-y-6">
+                {notice && (
+                  <div
+                    role="status"
+                    className="p-4 rounded-2xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] space-y-2 leading-relaxed"
+                  >
+                    <p className="font-semibold">{notice}</p>
+                    <div className="pt-2">
+                      <a
+                        href={`mailto:info@insightignite.org?subject=Inquiry: ${encodeURIComponent(inquiryType)}&body=${encodeURIComponent(
+                          `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nOrganization: ${formData.organization}\n\nMessage:\n${formData.message}`
+                        )}`}
+                        className="inline-flex items-center gap-1 font-bold text-[#8C5E42] hover:text-[#724B34] underline"
+                      >
+                        Click to open email client with your message pre-filled &rarr;
+                      </a>
                     </div>
-                    <h3 className="font-serif text-2xl font-bold text-[#2D241E]">
-                      Thank You for Reaching Out
-                    </h3>
-                    <p className="text-sm text-[#5C4D42] max-w-md mx-auto leading-relaxed">
-                      Your inquiry has been logged with Dr. Nivedita Ganguli&apos;s team. We will review your message and reply via email within 1-2 business days.
-                    </p>
-                    <button
-                      onClick={() => {
-                        setSubmitted(false);
-                        setFormData({ name: "", email: "", phone: "", organization: "", message: "" });
-                      }}
-                      className="inline-block mt-4 px-6 py-2.5 rounded-full bg-[#8C5E42] text-[#FDFBF7] font-semibold text-sm hover:bg-[#724B34] transition-colors"
-                    >
-                      Send Another Message
-                    </button>
                   </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-[#5C4D42] mb-2">
                         Area of Interest / Program
@@ -235,14 +235,14 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <button
+                    <Button
                       type="submit"
-                      className="w-full py-3 rounded-full bg-[#8C5E42] text-[#FDFBF7] font-bold text-sm hover:bg-[#724B34] transition-colors shadow-sm"
+                      variant="primary"
+                      className="w-full justify-center"
                     >
                       Submit Inquiry
-                    </button>
+                    </Button>
                   </form>
-                )}
               </div>
             </div>
           </div>

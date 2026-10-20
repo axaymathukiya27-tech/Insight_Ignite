@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
 
 export default function RegisterPage() {
   const [role, setRole] = useState("parent");
@@ -25,7 +27,7 @@ export default function RegisterPage() {
       return;
     }
     setNotice(
-      "Frontend UI Preview: Account creation flow is configured for Phase 1 deployment. Registration request logged."
+      "Frontend UI Preview: Account creation flow is configured for Phase 3 backend integration. Your registration has not been submitted."
     );
   };
 
@@ -35,8 +37,7 @@ export default function RegisterPage() {
 
       <main className="flex-grow flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-lg">
-          {/* Card */}
-          <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#E3D8CC] shadow-md space-y-6">
+          <Card className="p-8 sm:p-10 space-y-6">
             <div className="text-center space-y-2">
               <span className="inline-block px-3 py-1 rounded-full bg-[#FAF5EE] text-[#8C5E42] text-xs font-semibold uppercase tracking-wider">
                 Join Insight Ignite
@@ -170,23 +171,20 @@ export default function RegisterPage() {
                 />
                 <label htmlFor="terms" className="leading-snug">
                   I agree to the{" "}
-                  <Link href="/legal/terms" className="text-[#8C5E42] underline">
+                  <Link href="/terms" className="text-[#8C5E42] underline">
                     Terms of Service
                   </Link>{" "}
                   and acknowledge the{" "}
-                  <Link href="/legal/privacy" className="text-[#8C5E42] underline">
+                  <Link href="/privacy" className="text-[#8C5E42] underline">
                     Privacy Policy
                   </Link>
                   .
                 </label>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-full bg-[#8C5E42] text-[#FDFBF7] font-bold text-sm hover:bg-[#724B34] transition-colors shadow-sm"
-              >
+              <Button type="submit" variant="primary" className="w-full justify-center">
                 Register Account
-              </button>
+              </Button>
             </form>
 
             <div className="pt-4 border-t border-[#EFE8DF] text-center text-xs text-[#6B5A4E]">
@@ -198,7 +196,7 @@ export default function RegisterPage() {
                 Sign In
               </Link>
             </div>
-          </div>
+          </Card>
         </div>
       </main>
 

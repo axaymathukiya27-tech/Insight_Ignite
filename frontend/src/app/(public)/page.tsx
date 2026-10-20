@@ -1,14 +1,12 @@
 import React from "react";
+import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/features/home/components/Hero";
 import PillarsSection from "@/features/home/components/PillarsSection";
 import Biography from "@/features/home/components/Biography";
-import LearningOutcomes from "@/features/home/components/LearningOutcomes";
-import CourseJourney from "@/features/home/components/CourseJourney";
-import FAQSection from "@/features/home/components/FAQSection";
 import FeaturedCourse from "@/features/courses/components/FeaturedCourse";
-import SixPowers from "@/features/courses/components/SixPowers";
+import FAQSection from "@/features/home/components/FAQSection";
 
 export default function HomePage() {
   return (
@@ -26,32 +24,52 @@ export default function HomePage() {
 
       {/* Main Content Area */}
       <main id="main-content" className="flex-grow">
-        {/* 2. Hero Section: Conscious parenting & developmental leadership */}
+        {/* 2. Hero Section: Broad institutional mentorship mission */}
         <Hero />
 
         {/* 3. The 5 Pillars of Insight Ignite (Organization Scope) */}
         <PillarsSection />
 
-        {/* 4. Featured Course: The 6 Powers of Conscious Parenting */}
-        <FeaturedCourse />
-
-        {/* 5. Six Powers Section (Provisional breakdown) */}
-        <SixPowers />
-
-        {/* 6. Learning Outcomes Section */}
-        <LearningOutcomes />
-
-        {/* 7. Meet Dr. Nivedita Ganguli (Verified bio & approved portrait frame) */}
+        {/* 4. Founder & Leadership Profile (Verified bio & philosophy) */}
         <Biography />
 
-        {/* 8. Simple Course Journey Section */}
-        <CourseJourney />
+        {/* 5. Featured Course Spotlight: The 6 Powers of Conscious Parenting */}
+        <FeaturedCourse />
 
-        {/* 9. FAQ Section */}
+        {/* 6. Institutional Inquiries & Collaboration Callout */}
+        <section className="py-16 sm:py-20 bg-gradient-to-br from-[#8C5E42] to-[#5C3925] text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-white/20 text-xs font-semibold tracking-wider uppercase">
+              Partnerships & Mentorship
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl font-bold tracking-tight max-w-2xl mx-auto">
+              Collaborate With Dr. Nivedita Ganguli
+            </h2>
+            <p className="text-sm sm:text-base text-white/90 max-w-2xl mx-auto leading-relaxed">
+              Whether you are a parent seeking guidance, an educational institution planning faculty development workshops, or an organization building emotional resilience, our team welcomes your inquiry.
+            </p>
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/contact"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-[#5C3925] font-bold text-sm hover:bg-[#F5EFE8] transition-colors shadow-md"
+              >
+                Submit an Inquiry &rarr;
+              </Link>
+              <Link
+                href="/programs"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full border border-white/40 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+              >
+                Explore All 5 Programs
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* 7. FAQ Section */}
         <FAQSection />
       </main>
 
-      {/* 10. Footer */}
+      {/* 8. Footer */}
       <Footer />
     </div>
   );

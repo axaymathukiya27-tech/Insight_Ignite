@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export default function Biography() {
@@ -97,6 +98,15 @@ export default function Biography() {
                 <span className="w-2 h-2 rounded-full bg-[#8C5E42]" aria-hidden="true" />
                 <span>Mindful Boundary Setting</span>
               </div>
+            </div>
+
+            <div className="pt-2">
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-1.5 font-semibold text-sm text-[#8C5E42] hover:text-[#724B34] transition-colors"
+              >
+                Read Full Biography & Educational Background &rarr;
+              </Link>
             </div>
           </div>
         </div>

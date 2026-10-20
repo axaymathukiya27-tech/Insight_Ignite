@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -14,7 +16,7 @@ export default function LoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setNotice(
-      "Frontend UI Preview: Authentication service integration is scheduled for Phase 1 deployment. Your credentials have not been sent."
+      "Frontend UI Preview: Authentication service integration is scheduled for Phase 3. Your credentials have not been sent."
     );
   };
 
@@ -24,8 +26,7 @@ export default function LoginPage() {
 
       <main className="flex-grow flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
-          {/* Card */}
-          <div className="bg-white rounded-3xl p-8 sm:p-10 border border-[#E3D8CC] shadow-md space-y-6">
+          <Card className="p-8 sm:p-10 space-y-6">
             <div className="text-center space-y-2">
               <span className="inline-block px-3 py-1 rounded-full bg-[#FAF5EE] text-[#8C5E42] text-xs font-semibold uppercase tracking-wider">
                 Learner Portal
@@ -39,7 +40,10 @@ export default function LoginPage() {
             </div>
 
             {notice && (
-              <div className="p-3.5 rounded-xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] leading-relaxed">
+              <div
+                role="status"
+                className="p-3.5 rounded-xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] leading-relaxed"
+              >
                 {notice}
               </div>
             )}
@@ -98,12 +102,9 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-full bg-[#8C5E42] text-[#FDFBF7] font-bold text-sm hover:bg-[#724B34] transition-colors shadow-sm"
-              >
+              <Button type="submit" variant="primary" className="w-full justify-center">
                 Sign In
-              </button>
+              </Button>
             </form>
 
             <div className="pt-4 border-t border-[#EFE8DF] text-center text-xs text-[#6B5A4E]">
@@ -115,7 +116,7 @@ export default function LoginPage() {
                 Create Account
               </Link>
             </div>
-          </div>
+          </Card>
         </div>
       </main>
 

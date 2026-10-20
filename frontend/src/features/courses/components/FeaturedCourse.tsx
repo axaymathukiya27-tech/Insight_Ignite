@@ -128,12 +128,12 @@ export default function FeaturedCourse() {
                 </div>
 
                 <div className="flex items-center gap-3 w-full sm:w-auto">
-                  <a
-                    href="#six-powers"
+                  <Link
+                    href="/courses/the-6-powers-of-conscious-parenting"
                     className="w-full sm:w-auto text-center px-6 py-3 text-sm font-semibold text-[#FDFBF7] bg-[#8C5E42] hover:bg-[#724B34] active:bg-[#5C3C29] rounded-full shadow-xs transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8C5E42]"
                   >
-                    View The 6 Powers Breakdown
-                  </a>
+                    View The 6 Powers Breakdown &rarr;
+                  </Link>
                 </div>
               </div>
             </div>

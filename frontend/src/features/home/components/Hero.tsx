@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export default function Hero() {
@@ -14,67 +15,68 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Headline and Content */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Phase 1 Advisory Tag */}
+            {/* Platform Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EFE7DE] border border-[#DFCFC0] text-xs font-semibold text-[#66422D]">
               <span className="w-2 h-2 rounded-full bg-[#8C5E42] animate-pulse" aria-hidden="true" />
-              <span>Phase 1 Baseline • Online Academy Preview</span>
+              <span>Educational & Developmental Mentorship • Dr. Nivedita Ganguli</span>
             </div>
 
             {/* Main Headline with Serif Typography */}
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-[#2D241E] leading-[1.15]">
-              Conscious Parenting: <br />
+              Nurturing Resilience, <br />
               <span className="text-[#8C5E42] italic font-normal">
-                Presence, Clarity
+                Presence & Clarity
               </span>{" "}
-              & Emotional Connection
+              Across Life&apos;s Stages
             </h1>
 
             {/* Supporting Copy */}
             <p className="text-base sm:text-lg text-[#5F5146] max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans">
-              Discover a grounded, respectful pathway to nurturing your child&apos;s
-              resilience, emotional self-regulation, and enduring sense of security.
-              Guided by {siteConfig.author}&apos;s educational framework for families and educators.
+              Insight Ignite provides evidence-informed mentorship frameworks across conscious parenting, adolescent self-regulation, educator capacity building, and organizational resilience. Guided by {siteConfig.author}.
             </p>
 
             {/* Key Value Anchors */}
             <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs sm:text-sm text-[#6A5A4E]">
+              <Link
+                href="/programs"
+                className="flex items-center gap-1.5 bg-[#F5EFE8] px-3 py-1.5 rounded-md border border-[#E7DFD4] hover:border-[#8C5E42] transition-colors"
+              >
+                <svg className="w-4 h-4 text-[#8C5E42]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>5 Core Institutional Pillars</span>
+              </Link>
               <div className="flex items-center gap-1.5 bg-[#F5EFE8] px-3 py-1.5 rounded-md border border-[#E7DFD4]">
                 <svg className="w-4 h-4 text-[#8C5E42]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Calm nervous-system co-regulation</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-[#F5EFE8] px-3 py-1.5 rounded-md border border-[#E7DFD4]">
-                <svg className="w-4 h-4 text-[#8C5E42]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>Clear boundaries without punitive shame</span>
+                <span>Inaugural Course: The 6 Powers</span>
               </div>
             </div>
 
             {/* Call to Actions */}
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <a
-                href={siteConfig.links.exploreCourse}
+              <Link
+                href="/courses/the-6-powers-of-conscious-parenting"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold text-[#FDFBF7] bg-[#8C5E42] hover:bg-[#724B34] active:bg-[#5C3C29] rounded-full shadow-md hover:shadow-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8C5E42]"
               >
                 Explore The 6 Powers Course
                 <svg className="w-5 h-5 ml-2 -mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </a>
+              </Link>
 
-              <a
-                href="#about"
+              <Link
+                href="/about"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-[#4A3C32] bg-white hover:bg-[#F2ECE4] border border-[#D8CCBD] rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8C5E42]"
               >
                 Meet {siteConfig.author}
-              </a>
+              </Link>
             </div>
 
             {/* Note on Educational Scope */}
             <p className="text-[12px] text-[#86766B] pt-2">
-              * Educational learning course; not an emergency service or clinical medical diagnosis.
+              * Educational and developmental mentorship; not an emergency psychiatric service or clinical diagnosis.
             </p>
           </div>
 

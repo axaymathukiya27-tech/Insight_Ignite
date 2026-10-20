@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionHeading from "@/components/ui/SectionHeading";
+import LearningOutcomes from "@/features/home/components/LearningOutcomes";
+import CourseJourney from "@/features/home/components/CourseJourney";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -194,6 +196,12 @@ export default async function CourseDetailPage({ params }: Props) {
               ))}
             </div>
           </div>
+
+          {/* Learning Outcomes */}
+          <LearningOutcomes />
+
+          {/* 4-Stage Reflective Learning Journey */}
+          <CourseJourney />
 
           {/* Enrollment Notice & Pre-registration CTA */}
           <div className="rounded-3xl bg-gradient-to-br from-[#8C5E42] to-[#5C3925] text-[#FDFBF7] p-8 sm:p-12 text-center space-y-6 shadow-md">
