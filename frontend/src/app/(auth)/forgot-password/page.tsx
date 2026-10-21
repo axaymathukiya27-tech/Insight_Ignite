@@ -6,16 +6,40 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import { apiFetch, ApiError } from "@/lib/api-client";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [notice, setNotice] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSimulated, setIsSimulated] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setNotice(
-      "Frontend UI Preview: Transactional email delivery and expiring reset token generation connect in Phase 3. No email has been dispatched yet."
-    );
+    setErrorMessage(null);
+    setStatusMessage(null);
+    setIsSimulated(false);
+    setLoading(true);
+
+    try {
+      const res = await apiFetch<{ success: boolean; message: string; simulated?: boolean }>("/auth/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+      });
+      setStatusMessage(res.message || "If that email exists in our records, password reset instructions have been sent.");
+      if (res.simulated) {
+        setIsSimulated(true);
+      }
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Network error. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,16 +57,30 @@ export default function ForgotPasswordPage() {
                 Reset Password
               </h1>
               <p className="text-xs sm:text-sm text-[#6B5A4E]">
-                Enter your account email and we&apos;ll send you instructions to reset your password once email services are configured.
+                Enter your account email and we&apos;ll send you instructions to reset your password.
               </p>
             </div>
 
-            {notice && (
+            {statusMessage && (
               <div
                 role="status"
-                className="p-3.5 rounded-xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] leading-relaxed"
+                className={`p-3.5 rounded-xl border text-xs leading-relaxed ${
+                  isSimulated
+                    ? "bg-amber-50 border-amber-200 text-amber-900"
+                    : "bg-emerald-50 border-emerald-200 text-emerald-800"
+                }`}
               >
-                {notice}
+                {isSimulated && <p className="font-bold mb-1">Development Notice</p>}
+                {statusMessage}
+              </div>
+            )}
+
+            {errorMessage && (
+              <div
+                role="alert"
+                className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 leading-relaxed"
+              >
+                {errorMessage}
               </div>
             )}
 
@@ -58,15 +96,22 @@ export default function ForgotPasswordPage() {
                   id="email"
                   type="email"
                   required
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50"
+                  disabled={loading}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50 disabled:opacity-60"
                 />
               </div>
 
-              <Button type="submit" variant="primary" className="w-full justify-center">
-                Send Reset Link
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={loading || !email}
+                className="w-full justify-center"
+              >
+                {loading ? "Sending Reset Link..." : "Send Reset Link"}
               </Button>
             </form>
 

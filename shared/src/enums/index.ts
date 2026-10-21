@@ -13,3 +13,24 @@ export enum CourseStatus {
   PUBLISHED = "PUBLISHED",
   ARCHIVED = "ARCHIVED",
 }
+
+export enum OrderStatus {
+  PENDING = "PENDING",
+  PAID = "PAID",
+  FAILED = "FAILED",
+  REFUNDED = "REFUNDED",
+}
+
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+  REFUNDED = "REFUNDED",
+}
+
+export enum InquiryStatus {
+  NEW = "NEW",
+  IN_PROGRESS = "IN_PROGRESS",
+  RESPONDED = "RESPONDED",
+  ARCHIVED = "ARCHIVED",
+}

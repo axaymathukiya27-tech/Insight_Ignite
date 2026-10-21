@@ -2,33 +2,68 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/context/AuthContext";
+import { ApiError } from "@/lib/api-client";
 
 export default function RegisterPage() {
-  const [role, setRole] = useState("parent");
+  const router = useRouter();
+  const { register } = useAuth();
+
+  const [role, setRole] = useState<"PARENT" | "TEACHER" | "LEARNER">("PARENT");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
+
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters in length.");
+      return;
+    }
+
     if (password !== confirmPassword) {
-      setNotice("Passwords do not match. Please verify.");
+      setErrorMessage("Passwords do not match. Please verify.");
       return;
     }
+
     if (!agreeTerms) {
-      setNotice("Please accept the terms of service and privacy notice to continue.");
+      setErrorMessage("Please accept the terms of service and privacy notice to continue.");
       return;
     }
-    setNotice(
-      "Frontend UI Preview: Account creation flow is configured for Phase 3 backend integration. Your registration has not been submitted."
-    );
+
+    setLoading(true);
+
+    try {
+      const result = await register({
+        name,
+        email,
+        password,
+        role,
+        agreeTerms,
+      });
+
+      const simulatedParam = result?.emailSimulated ? "&simulated=true" : "";
+      router.push(`/verify-email?registered=true&email=${encodeURIComponent(email)}${simulatedParam}`);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Unable to complete registration. Please check your network connection.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,9 +85,12 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            {notice && (
-              <div className="p-3.5 rounded-xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] leading-relaxed">
-                {notice}
+            {errorMessage && (
+              <div
+                role="alert"
+                className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 leading-relaxed"
+              >
+                {errorMessage}
               </div>
             )}
 
@@ -62,18 +100,17 @@ export default function RegisterPage() {
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#5C4D42] mb-2">
                   I am registering as a
                 </label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="grid grid-cols-3 gap-2 text-xs">
                   {[
-                    { id: "parent", label: "Parent / Caregiver" },
-                    { id: "educator", label: "Educator / Teacher" },
-                    { id: "mentor", label: "Youth Mentor" },
-                    { id: "corporate", label: "Corporate Professional" },
+                    { id: "PARENT", label: "Parent" },
+                    { id: "TEACHER", label: "Educator" },
+                    { id: "LEARNER", label: "Learner" },
                   ].map((item) => (
                     <button
                       type="button"
                       key={item.id}
-                      onClick={() => setRole(item.id)}
-                      className={`p-2.5 rounded-xl border text-center font-medium transition-all ${
+                      onClick={() => setRole(item.id as "PARENT" | "TEACHER" | "LEARNER")}
+                      className={`p-2.5 rounded-xl border text-center font-medium transition-all cursor-pointer ${
                         role === item.id
                           ? "border-[#8C5E42] bg-[#FAF5EE] text-[#8C5E42] font-semibold"
                           : "border-[#E4D8CD] bg-white text-[#5C4D42] hover:bg-[#FAF8F5]"
@@ -96,10 +133,12 @@ export default function RegisterPage() {
                   id="name"
                   type="text"
                   required
+                  autoComplete="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your full legal or preferred name"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50"
+                  disabled={loading}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50 disabled:opacity-60"
                 />
               </div>
 
@@ -114,10 +153,12 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   required
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50"
+                  disabled={loading}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50 disabled:opacity-60"
                 />
               </div>
 
@@ -134,10 +175,12 @@ export default function RegisterPage() {
                     type="password"
                     required
                     minLength={8}
+                    autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Min 8 characters"
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50"
+                    disabled={loading}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50 disabled:opacity-60"
                   />
                 </div>
 
@@ -153,10 +196,12 @@ export default function RegisterPage() {
                     type="password"
                     required
                     minLength={8}
+                    autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Repeat password"
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50"
+                    disabled={loading}
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#DCD0C4] bg-[#FAF8F5] text-sm text-[#2D241E] focus:outline-none focus:ring-2 focus:ring-[#8C5E42]/50 disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -165,8 +210,10 @@ export default function RegisterPage() {
                 <input
                   id="terms"
                   type="checkbox"
+                  required
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
+                  disabled={loading}
                   className="mt-0.5 rounded border-[#C8B8AA] text-[#8C5E42] focus:ring-[#8C5E42]"
                 />
                 <label htmlFor="terms" className="leading-snug">
@@ -182,8 +229,13 @@ export default function RegisterPage() {
                 </label>
               </div>
 
-              <Button type="submit" variant="primary" className="w-full justify-center">
-                Register Account
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={loading}
+                className="w-full justify-center"
+              >
+                {loading ? "Creating Account..." : "Register Account"}
               </Button>
             </form>
 

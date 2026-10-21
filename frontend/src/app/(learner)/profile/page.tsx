@@ -1,15 +1,40 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-
-export const metadata = {
-  title: "Learner Profile & Preferences — Insight Ignite",
-};
+import { useAuth } from "@/context/AuthContext";
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const { user, loading, logout } = useAuth();
+
+  const handleSignOut = async () => {
+    await logout();
+    router.push("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2D241E]">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center py-20">
+          <p className="text-sm text-[#7A6A5E] animate-pulse">Loading profile...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const initial = user?.fullName?.charAt(0).toUpperCase() || "L";
+  const memberDate = user?.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : "October 2026";
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#2D241E]">
       <Navbar />
@@ -37,44 +62,29 @@ export default function ProfilePage() {
           </Link>
         </div>
 
-        {/* Phase 1 Integration Banner */}
-        <div
-          role="status"
-          className="p-4 rounded-2xl bg-[#FAF5EE] border border-[#E2D5C7] text-xs text-[#6B4B36] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
-        >
-          <div>
-            <strong className="font-bold">Phase 1 UI Shell:</strong> Displaying development fixture profile. Dynamic user session data, email preferences, and password modifications connect to backend APIs in Phase 3.
-          </div>
-          <span className="px-2.5 py-1 rounded-full bg-[#8C5E42] text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">
-            Phase 1 Baseline
-          </span>
-        </div>
-
         {/* Profile Card Header */}
         <Card className="p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <div className="w-16 h-16 rounded-full bg-[#8C5E42] text-[#FDFBF7] flex items-center justify-center font-serif text-2xl font-bold shadow-xs">
-              L
+              {initial}
             </div>
             <div className="space-y-1">
               <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#FAF5EE] text-[#8C5E42] text-[10px] font-bold uppercase tracking-wider border border-[#E3D8CC]">
-                Learner Profile
+                {user?.role || "Learner"} Profile
               </span>
               <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#2D241E]">
-                Active Learner Account
+                {user?.fullName || "Active Learner"}
               </h1>
               <p className="text-xs sm:text-sm text-[#6B5A4E]">
-                learner@insightignite.org • Member since October 2026
+                {user?.email || "learner@insightignite.org"} • Member since {memberDate}
               </p>
             </div>
           </div>
 
           <div className="flex gap-2">
-            <Link href="/learn/courses">
-              <Button variant="outline" size="sm">
-                View Enrolled Courses
-              </Button>
-            </Link>
+            <Button variant="outline" size="sm" onClick={handleSignOut}>
+              Sign Out
+            </Button>
           </div>
         </Card>
 
@@ -87,19 +97,21 @@ export default function ProfilePage() {
             <div className="space-y-3 text-xs sm:text-sm">
               <div className="flex justify-between py-1 border-b border-[#F5EFE8]">
                 <span className="text-[#7A6A5E] font-medium">Full Name</span>
-                <span className="text-[#2D241E] font-semibold">Demo Learner</span>
+                <span className="text-[#2D241E] font-semibold">{user?.fullName || "—"}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-[#F5EFE8]">
                 <span className="text-[#7A6A5E] font-medium">Registered Email</span>
-                <span className="text-[#2D241E] font-semibold">learner@insightignite.org</span>
+                <span className="text-[#2D241E] font-semibold">{user?.email || "—"}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-[#F5EFE8]">
                 <span className="text-[#7A6A5E] font-medium">Platform Role</span>
-                <span className="text-[#8C5E42] font-semibold uppercase text-xs">Parent / Learner</span>
+                <span className="text-[#8C5E42] font-semibold uppercase text-xs">{user?.role || "LEARNER"}</span>
               </div>
               <div className="flex justify-between py-1 border-b border-[#F5EFE8]">
                 <span className="text-[#7A6A5E] font-medium">Email Verification</span>
-                <span className="text-amber-700 font-semibold text-xs">Pending Phase 3 Mailer</span>
+                <span className={user?.emailVerified ? "text-emerald-700 font-semibold text-xs" : "text-amber-700 font-semibold text-xs"}>
+                  {user?.emailVerified ? "Verified" : "Pending Verification"}
+                </span>
               </div>
             </div>
           </Card>
@@ -115,7 +127,7 @@ export default function ProfilePage() {
                     The 6 Powers of Conscious Parenting
                   </span>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FAF5EE] text-[#8C5E42]">
-                    Enrolled
+                    Available
                   </span>
                 </div>
                 <p className="text-xs text-[#7A6A5E]">
@@ -123,10 +135,10 @@ export default function ProfilePage() {
                 </p>
                 <div className="pt-2">
                   <Link
-                    href="/learn/courses/the-6-powers-of-conscious-parenting"
+                    href="/courses/the-6-powers-of-conscious-parenting"
                     className="text-xs font-semibold text-[#8C5E42] hover:underline"
                   >
-                    Open Classroom &rarr;
+                    View Course Details &rarr;
                   </Link>
                 </div>
               </div>

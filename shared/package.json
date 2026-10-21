@@ -6,6 +6,9 @@
   "scripts": {
     "build": "echo \"Shared package built\""
   },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
   "devDependencies": {
     "typescript": "^5.7.3"
   }

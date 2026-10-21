@@ -1,7 +1,1 @@
-export interface ApiResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
-  requestId?: string;
-}
+export * from "@insight-ignite/shared";

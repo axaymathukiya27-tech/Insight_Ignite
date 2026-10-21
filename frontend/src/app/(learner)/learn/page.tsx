@@ -1,7 +1,13 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LearnerDashboardPage() {
+  const { user } = useAuth();
+  const displayName = user?.fullName ? `, ${user.fullName}` : "";
+
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Welcome Banner */}
@@ -11,7 +17,7 @@ export default function LearnerDashboardPage() {
             Welcome to Your Study Space
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold">
-            Continue Your Journey in Conscious Mentorship
+            Welcome back{displayName}
           </h1>
           <p className="text-sm text-white/85 max-w-xl">
             Cultivate calm, presence, and relational repair at your own pace through structured lesson reflections.
@@ -19,10 +25,10 @@ export default function LearnerDashboardPage() {
         </div>
 
         <Link
-          href="/learn/courses/the-6-powers-of-conscious-parenting"
+          href="/courses/the-6-powers-of-conscious-parenting"
           className="inline-block px-6 py-3 rounded-full bg-white text-[#633F2B] font-bold text-sm hover:bg-[#F5EFE8] transition-colors whitespace-nowrap self-start md:self-auto"
         >
-          Resume Course &rarr;
+          View Masterclass &rarr;
         </Link>
       </div>
 
@@ -32,7 +38,7 @@ export default function LearnerDashboardPage() {
           <span className="text-xs uppercase text-[#8A796E] font-medium tracking-wider">
             Active Enrollments
           </span>
-          <div className="text-2xl font-bold font-serif text-[#2D241E]">1 Course</div>
+          <div className="text-2xl font-bold font-serif text-[#2D241E]">1 Masterclass</div>
           <p className="text-xs text-[#6B5A4E]">
             The 6 Powers of Conscious Parenting
           </p>
@@ -50,11 +56,13 @@ export default function LearnerDashboardPage() {
 
         <div className="bg-white rounded-2xl p-6 border border-[#E3D8CC] shadow-sm space-y-2">
           <span className="text-xs uppercase text-[#8A796E] font-medium tracking-wider">
-            Platform Status
+            Account Status
           </span>
-          <div className="text-2xl font-bold font-serif text-[#8C5E42]">Phase 1 Active</div>
+          <div className="text-2xl font-bold font-serif text-[#8C5E42]">
+            {user?.emailVerified ? "Verified Active" : "Verification Pending"}
+          </div>
           <p className="text-xs text-[#6B5A4E]">
-            Core learning & enrollment foundation
+            Role: {user?.role || "LEARNER"}
           </p>
         </div>
       </div>
@@ -89,7 +97,7 @@ export default function LearnerDashboardPage() {
 
             <div className="flex items-center gap-3">
               <Link
-                href="/learn/courses/the-6-powers-of-conscious-parenting"
+                href="/courses/the-6-powers-of-conscious-parenting"
                 className="px-5 py-2 rounded-full bg-[#8C5E42] text-[#FDFBF7] font-semibold text-xs hover:bg-[#724B34] transition-colors"
               >
                 Open Course Room

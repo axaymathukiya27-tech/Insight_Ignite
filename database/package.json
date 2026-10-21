@@ -4,12 +4,18 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "build": "echo \"Database package built\"",
+    "build": "prisma generate",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "test": "tsx tests/connection.test.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1"
   },
   "devDependencies": {
+    "dotenv": "^16.4.7",
     "prisma": "^6.4.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
 }

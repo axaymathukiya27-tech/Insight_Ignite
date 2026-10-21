@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 const sansFont = Plus_Jakarta_Sans({
@@ -47,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sansFont.variable} ${serifFont.variable} scroll-smooth`}>
       <body className="min-h-screen bg-[#FAF8F5] text-[#2D241E] font-sans antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
