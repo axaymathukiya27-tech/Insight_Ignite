@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import AssessmentHistoryList from "@/features/assessments/components/AssessmentHistoryList";
 
 export default function LearnerDashboardPage() {
   const { user } = useAuth();
@@ -105,6 +106,29 @@ export default function LearnerDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Self-Assessments Section */}
+      <div className="space-y-4 pt-4 border-t border-[#EFE8DF]">
+        <div className="flex items-center justify-between">
+          <div className="space-y-0.5">
+            <h2 className="font-serif text-xl font-bold text-[#2D241E]">
+              My Growth Self-Assessments
+            </h2>
+            <p className="text-xs text-[#6B5A4E]">
+              Review your past reflections and track your co-regulation progress.
+            </p>
+          </div>
+
+          <Link
+            href="/assessments"
+            className="text-xs font-semibold text-[#8C5E42] hover:text-[#724B34]"
+          >
+            Take New Reflection &rarr;
+          </Link>
+        </div>
+
+        <AssessmentHistoryList />
       </div>
     </main>
   );

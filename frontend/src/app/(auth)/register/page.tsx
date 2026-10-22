@@ -54,7 +54,8 @@ export default function RegisterPage() {
       });
 
       const simulatedParam = result?.emailSimulated ? "&simulated=true" : "";
-      router.push(`/verify-email?registered=true&email=${encodeURIComponent(email)}${simulatedParam}`);
+      const tokenParam = result?.verificationToken ? `&token=${encodeURIComponent(result.verificationToken)}` : "";
+      router.push(`/verify-email?registered=true&email=${encodeURIComponent(email)}${simulatedParam}${tokenParam}`);
     } catch (err) {
       if (err instanceof ApiError) {
         setErrorMessage(err.message);

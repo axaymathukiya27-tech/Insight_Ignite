@@ -2,6 +2,8 @@ import { Router } from "express";
 import healthRouter from "./health.routes";
 import authRouter from "../modules/auth/auth.routes";
 import coursesRouter from "../modules/courses/courses.routes";
+import assessmentsRouter from "../modules/assessments/assessments.routes";
+import adminAssessmentsRouter from "../modules/assessments/admin-assessments.routes";
 import { requireAuth, requireRole, requireVerifiedEmail } from "../middleware/auth.middleware";
 import { UserRole } from "@insight-ignite/database";
 import { sendSuccess } from "../utils/response";
@@ -12,6 +14,8 @@ const apiRouter = Router();
 apiRouter.use("/", healthRouter);
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/courses", coursesRouter);
+apiRouter.use("/assessments", assessmentsRouter);
+apiRouter.use("/admin/assessments", adminAssessmentsRouter);
 
 // Protected learner route (requires authenticated session AND verified email)
 apiRouter.get("/learner/profile", requireAuth, requireVerifiedEmail, (req, res) => {

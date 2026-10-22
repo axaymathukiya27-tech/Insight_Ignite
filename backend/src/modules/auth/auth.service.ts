@@ -35,7 +35,7 @@ export async function registerUser(input: {
   email: string;
   password: string;
   role?: string;
-}): Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean }> {
+}): Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean; verificationToken?: string }> {
   const normalizedEmail = input.email.trim().toLowerCase();
 
   // Enforce permitted public roles (Default: LEARNER; Never allow PLATFORM_ADMIN)
@@ -87,6 +87,7 @@ export async function registerUser(input: {
     user: toSafeUser(user),
     emailDelivered: delivery.delivered,
     emailSimulated: Boolean(delivery.simulated),
+    verificationToken: delivery.simulated ? rawToken : undefined,
   };
 }
 
@@ -129,7 +130,7 @@ export async function verifyEmail(rawToken: string): Promise<{ success: boolean;
   };
 }
 
-export async function resendVerification(email: string): Promise<{ success: boolean; message: string; simulated?: boolean }> {
+export async function resendVerification(email: string): Promise<{ success: boolean; message: string; simulated?: boolean; verificationToken?: string }> {
   const normalizedEmail = email.trim().toLowerCase();
 
   const user = await prisma.user.findUnique({
@@ -185,6 +186,7 @@ export async function resendVerification(email: string): Promise<{ success: bool
       ? "Simulation Mode: Live SMTP is not configured. An activation link was generated and recorded in the server logs."
       : genericMessage,
     simulated: Boolean(delivery.simulated),
+    verificationToken: delivery.simulated ? rawToken : undefined,
   };
 }
 

@@ -90,6 +90,11 @@ async function sendMailInternal(to, subject, text, html) {
     const client = getTransporter();
     if (!client) {
         logger_1.logger.warn(`[EmailService] SMTP credentials not configured. In development, simulating email to ${to} (Subject: ${subject})`);
+        logger_1.logger.info(`\n[EmailService DEV] ========== SIMULATED EMAIL ==========`);
+        logger_1.logger.info(`To: ${to}`);
+        logger_1.logger.info(`Subject: ${subject}`);
+        logger_1.logger.info(`Body:\n${text}`);
+        logger_1.logger.info(`[EmailService DEV] =======================================\n`);
         return {
             delivered: false,
             simulated: true,

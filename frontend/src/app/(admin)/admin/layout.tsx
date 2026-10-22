@@ -99,6 +99,12 @@ export default function AdminLayout({
                 Courses
               </Link>
               <Link
+                href="/admin/assessments"
+                className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
+              >
+                Assessments
+              </Link>
+              <Link
                 href="/admin/lessons"
                 className="px-2.5 py-1.5 rounded-lg hover:text-white hover:bg-white/10 transition-colors"
               >

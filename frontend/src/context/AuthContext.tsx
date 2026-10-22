@@ -8,7 +8,7 @@ interface AuthContextType {
   user: SafeUser | null;
   loading: boolean;
   login: (credentials: LoginUserInput) => Promise<SafeUser>;
-  register: (data: RegisterUserInput) => Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean }>;
+  register: (data: RegisterUserInput) => Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean; verificationToken?: string }>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
   isAuthenticated: boolean;
@@ -76,8 +76,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = async (
     data: RegisterUserInput
-  ): Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean }> => {
-    const res = await apiFetch<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean }>("/auth/register", {
+  ): Promise<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean; verificationToken?: string }> => {
+    const res = await apiFetch<{ user: SafeUser; emailDelivered: boolean; emailSimulated?: boolean; verificationToken?: string }>("/auth/register", {
       method: "POST",
       body: JSON.stringify(data),
     });

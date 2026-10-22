@@ -34,3 +34,9 @@ export enum InquiryStatus {
   RESPONDED = "RESPONDED",
   ARCHIVED = "ARCHIVED",
 }
+
+export enum AssessmentStatus {
+  DRAFT = "DRAFT",
+  ACTIVE = "ACTIVE",
+  RETIRED = "RETIRED",
+}

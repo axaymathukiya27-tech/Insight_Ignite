@@ -83,6 +83,7 @@ async function registerUser(input) {
         user: toSafeUser(user),
         emailDelivered: delivery.delivered,
         emailSimulated: Boolean(delivery.simulated),
+        verificationToken: delivery.simulated ? rawToken : undefined,
     };
 }
 async function verifyEmail(rawToken) {
@@ -162,6 +163,7 @@ async function resendVerification(email) {
             ? "Simulation Mode: Live SMTP is not configured. An activation link was generated and recorded in the server logs."
             : genericMessage,
         simulated: Boolean(delivery.simulated),
+        verificationToken: delivery.simulated ? rawToken : undefined,
     };
 }
 async function loginUser(input) {

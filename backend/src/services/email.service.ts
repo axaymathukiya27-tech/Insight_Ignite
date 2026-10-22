@@ -116,6 +116,11 @@ async function sendMailInternal(
 
   if (!client) {
     logger.warn(`[EmailService] SMTP credentials not configured. In development, simulating email to ${to} (Subject: ${subject})`);
+    logger.info(`\n[EmailService DEV] ========== SIMULATED EMAIL ==========`);
+    logger.info(`To: ${to}`);
+    logger.info(`Subject: ${subject}`);
+    logger.info(`Body:\n${text}`);
+    logger.info(`[EmailService DEV] =======================================\n`);
     return {
       delivered: false,
       simulated: true,

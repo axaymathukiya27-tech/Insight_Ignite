@@ -71,7 +71,7 @@ function VerifyEmailContent() {
     setErrorMessage(null);
 
     try {
-      const res = await apiFetch<{ success: boolean; message: string; simulated?: boolean }>(
+      const res = await apiFetch<{ success: boolean; message: string; simulated?: boolean; verificationToken?: string }>(
         "/auth/resend-verification",
         {
           method: "POST",
@@ -81,6 +81,10 @@ function VerifyEmailContent() {
       setResendStatus(res.message || "A new verification link has been sent to your email.");
       if (res.simulated) {
         setIsSimulatedDelivery(true);
+      }
+      if (res.verificationToken) {
+        window.location.href = `/verify-email?token=${encodeURIComponent(res.verificationToken)}`;
+        return;
       }
     } catch (err) {
       if (err instanceof ApiError) {
